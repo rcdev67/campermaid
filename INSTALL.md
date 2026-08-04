@@ -111,13 +111,17 @@ Zum Schluss einmal im Fahrzeug — wie und warum steht in
 
 ---
 
-## Anhang: Einzeldatei ohne Dateizugriff
+## Anhang: Ohne Bauen aufs Board
 
-Wer im ESPHome-Editor arbeitet und keine Dateien ablegen kann, fügt
-[`esphome/level/campermaid-level-komplett.yaml`](esphome/level/campermaid-level-komplett.yaml)
-am Stück ein. Diese Fassung bringt die ESPHome-Standardseite mit statt der
-eigenen Bedienoberfläche — ein `js_include` verweist auf eine Datei neben der
-YAML, und die gibt es dort nicht.
+Wer nicht selbst bauen will, nimmt die fertige Firmware aus dem
+[jüngsten Release](https://github.com/rcdev67/campermaid/releases/latest):
+`level-firmware.factory.bin` enthält Bootloader und Partitionstabelle und geht
+auf ein leeres Board — mit [ESPHome Web](https://web.esphome.io) oder
+`esptool` an Adresse `0x0`.
 
-Sie enthält bewusst **kein** automatisches Update: Wer sie einfügt, hat sie in
-aller Regel angepasst, und ein Update würde das kommentarlos überschreiben.
+Nicht zu verwechseln mit `level-firmware.ota.bin`: Die ist für Updates über das
+Netz gedacht. Auf einen leeren Chip geschrieben ergibt sie ein Gerät, das nicht
+startet.
+
+Die Einstellungen machst du danach am Handy wie in Schritt 2. Ein eigener
+API-Schlüssel entsteht dabei nicht — die Werksfirmware bringt ihren mit.

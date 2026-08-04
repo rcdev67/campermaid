@@ -19,10 +19,13 @@ Alles hängt an `releases/latest/download/…`. GitHub löst das selbst auf die
 neueste Veröffentlichung auf, die Adressen ändern sich also **nie**:
 
 ```
-https://github.com/rcdev67/campermaid/releases/latest/download/manifest.json
+https://github.com/rcdev67/campermaid/releases/latest/download/level-manifest.json
 https://github.com/rcdev67/campermaid/releases/latest/download/level-firmware.ota.bin
 https://github.com/rcdev67/campermaid/releases/latest/download/level-firmware.ota.bin.md5
 ```
+
+Das Produktpräfix `level-` trägt jede Datei, weil sich Level und Gas später ein
+Release teilen.
 
 Sie stehen fest in [`campermaid-level.yaml`](../esphome/level/campermaid-level.yaml)
 und müssen bei einer neuen Version **nicht** angefasst werden.
@@ -52,8 +55,14 @@ und müssen bei einer neuen Version **nicht** angefasst werden.
    ```powershell
    (Get-FileHash .\level-firmware.ota.bin -Algorithm MD5).Hash.ToLower() | Out-File -Encoding ascii level-firmware.ota.bin.md5
    ```
-4. **Release anlegen** mit dem Tag der Version, dann die drei Dateien
-   anhängen: `level-firmware.ota.bin`, `level-firmware.ota.bin.md5`, `manifest.json`.
+4. **Release anlegen** mit dem Tag der Version, dann die vier Dateien
+   anhängen: `level-firmware.ota.bin`, `level-firmware.ota.bin.md5`,
+   `level-firmware.factory.bin`, `level-manifest.json`. Die Factory-Datei wird
+   fürs Update nicht gebraucht — sie liegt bei, damit sich jede veröffentlichte
+   Version ohne Bauen auf ein leeres Board bringen lässt.
+
+Schritt 2 bis 4 nimmt `tools/veroeffentlichen.cmd` ab, samt Reihenfolge beim
+Hochladen.
 
 Ohne Release passiert nichts — weder in HACS noch an den Geräten. HACS folgt
 seit dem ersten Tag ausschließlich Releases, nicht dem Branch.
@@ -64,15 +73,15 @@ Nach der ESP-Web-Tools-Spezifikation mit der OTA-Erweiterung:
 
 ```json
 {
-  "name": "CamperMaid",
-  "version": "1.14.0",
+  "name": "CamperMaid Level",
+  "version": "2.0.0",
   "builds": [
     {
       "chipFamily": "ESP32-C3",
       "ota": {
         "md5": "…32 Zeichen…",
         "path": "https://github.com/rcdev67/campermaid/releases/latest/download/level-firmware.ota.bin",
-        "summary": "Fahrzeugmaße im Gerät, Update von Hand ohne Home Assistant",
+        "summary": "CamperMaid 2.0.0",
         "release_url": "https://github.com/rcdev67/campermaid/releases/latest"
       }
     }
@@ -101,11 +110,14 @@ entfällt aber die Echtheitsprüfung, und ein Angreifer im selben Netz könnte
 eigene Firmware unterschieben. Die MD5-Summe hilft dagegen nicht, sie stammt
 aus derselben Quelle. Erst versuchen, dann abschalten, nicht umgekehrt.
 
-## Warum der Selbstbau-Weg kein automatisches Update hat
+## Selbstbau mit eigenen Anpassungen
 
-[`campermaid-level-komplett.yaml`](../esphome/level/campermaid-level-komplett.yaml)
-enthält bewusst weder `update:` noch den Update-Knopf. Wer diese Datei
-einfügt, hat sie in aller Regel angepasst — Gerätename, Pins, Achsvorzeichen.
-Ein automatisches Update würde diese Anpassungen kommentarlos durch den
-Werksstand ersetzen. Selbstbaür aktualisieren über das ESPHome-Dashboard,
-das sie ohnehin benutzen.
+Wer die Firmware verändert hat — Gerätename, Pins, Achsvorzeichen —, sollte den
+Update-Knopf stehen lassen, aber nicht drücken: Er holt den Werksstand und
+ersetzt die Anpassungen kommentarlos. Der Weg dafür ist `esphome run` aus dem
+eigenen Arbeitsstand, wie in [INSTALL.md](../INSTALL.md) beschrieben.
+
+Die Einstellwerte im Gerät überstehen beide Wege. Verloren gehen sie beim
+seriellen Aufspielen mit Löschen: Das räumt auch den Speicherbereich ab, in dem
+Fahrzeugmaße und WLAN-Zugangsdaten liegen. Deshalb aktualisiert ein Gerät im
+Einsatz über das Netz, nicht über das Kabel.

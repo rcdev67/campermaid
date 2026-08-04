@@ -7,7 +7,6 @@ esphome/
     campermaid-level.yaml            die auszuliefernde Firmware
     hardware.yaml                    Messlogik, Anzeige, Einstellwerte
     webui.js                         Bedienoberfläche auf dem Gerät
-    campermaid-level-komplett.yaml   generiert, Selbstbau in einer Datei
     secrets.yaml.example
 ```
 
@@ -41,9 +40,14 @@ esphome compile campermaid-level.yaml
 pwsh ../../tools/build_release.ps1
 ```
 
-Erzeugt in `release/` die drei Anhänge fürs GitHub-Release:
-`level-firmware.ota.bin`, dessen `.md5` und `level-manifest.json`. Die Namen
-tragen das Produktpräfix, weil sich Level und Gas ein Release teilen.
+Erzeugt in `release/` die vier Anhänge fürs GitHub-Release:
+`level-firmware.ota.bin`, dessen `.md5`, `level-firmware.factory.bin` und
+`level-manifest.json`. Die Namen tragen das Produktpräfix, weil sich Level und
+Gas ein Release teilen.
+
+Beide `.bin` haben verschiedene Aufgaben: Die OTA-Datei geht über das Netz auf
+ein laufendes Gerät, die Factory-Datei mit Bootloader und Partitionstabelle auf
+ein leeres Board. Vertauscht startet das Gerät nicht mehr.
 
 Einzelheiten in [docs/firmware_update.md](../docs/firmware_update.md).
 
