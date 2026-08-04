@@ -67,6 +67,59 @@ Hochladen.
 Ohne Release passiert nichts — weder in HACS noch an den Geräten. HACS folgt
 seit dem ersten Tag ausschließlich Releases, nicht dem Branch.
 
+## Interne Fassungen erproben
+
+Eine neue Fassung soll geprüft werden können, ohne dass sie bei irgendjemandem
+landet. Dafür gibt es zwei Arten von Veröffentlichung, und **die Versionsnummer
+entscheidet, welche es wird**:
+
+| Nummer | Art | Wer bekommt sie |
+|---|---|---|
+| `2.0.4` | Auslieferung | jedes Gerät mit Internet, HACS bietet sie an |
+| `2.0.4-rc1` | Vorabfassung | niemand automatisch |
+
+Der Bindestrich ist das ganze Verfahren. `tools/github_release.ps1` liest ihn
+und setzt die Veröffentlichung auf *prerelease*.
+
+**Warum das genügt:** Die Geräte fragen `releases/latest/download/…` ab. GitHub
+liefert unter `latest` ausdrücklich die neueste Fassung, die **weder Entwurf
+noch Vorabversion** ist. Eine Vorabfassung existiert für die Geräte damit
+schlicht nicht — sie bleiben auf der letzten Auslieferung stehen. HACS
+verfährt ebenso, solange beim Repository nicht ausdrücklich Betafassungen
+eingeschaltet sind.
+
+Zusätzlich setzt das Skript `make_latest` auf `false`. Zwei Schlösser statt
+einem: Wer den Haken später von Hand entfernt, hätte sonst schlagartig eine
+ungeprüfte Fassung auf allen Geräten.
+
+### Eine Vorabfassung aufspielen
+
+Auf das eigene Gerät am schnellsten direkt aus dem Arbeitsstand, ganz ohne
+Veröffentlichung:
+
+```bash
+esphome run campermaid-level.yaml --device campermaid-level.local
+```
+
+Auf ein entferntes Gerät über die Geräteseite: *Technik → Software → Datei
+aufspielen*, dann `level-firmware.ota.bin` aus der Vorabfassung wählen.
+
+### Von der Erprobung zur Auslieferung
+
+Taugt die Fassung, wird aus `2.0.4-rc1` schlicht `2.0.4` — in
+`esphome/level/hardware.yaml` **und** in
+`custom_components/campermaid/manifest.json`, beide müssen übereinstimmen. Dann
+neu bauen und erneut veröffentlichen. Die Vorabfassung kann stehenbleiben; sie
+stört nicht.
+
+### Eine Eigenheit, die kein Fehler ist
+
+Ein Gerät, auf dem eine Vorabfassung läuft, meldet dauerhaft „Update
+verfügbar" — und zwar auf die letzte **ausgelieferte** Fassung. Die Prüfung
+vergleicht nur, ob die Zeichenketten gleich sind; sie kennt kein „neuer" und
+kein „älter". Auf einem Erprobungsgerät ist das hinnehmbar und sogar
+brauchbar: Es zeigt an, dass hier gerade kein Auslieferungsstand läuft.
+
 ## Aufbau des Manifests
 
 Nach der ESP-Web-Tools-Spezifikation mit der OTA-Erweiterung:

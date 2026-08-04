@@ -98,3 +98,16 @@ nicht.
 > Wer stattdessen mit einer festen Gradtoleranz arbeiten will, schaltet den
 > **Präzisionsmodus** ein; dann gilt `CamperMaid Toleranz` für beide
 > Achsen und die Fahrzeugmaße wirken nur noch auf die cm-Angabe.
+
+## Wie lange hält eine Kalibrierung?
+
+Solange das Gerät nicht bewegt wird, gilt sie unbegrenzt — der Nullpunkt liegt
+im Flash und übersteht Stromausfall und Firmware-Update.
+
+Eine Einschränkung gibt es dennoch: Der Nullpunkt eines Beschleunigungssensors
+wandert mit der Temperatur, und ein Wohnmobil erlebt zwischen Winternacht und
+Sommermittag 40 bis 50 Grad Unterschied. Wie stark sich das beim verbauten
+Sensor auswirkt, misst das Gerät selbst mit — siehe
+[drift_messung.md](drift_messung.md). Wer den Verdacht hat, dass die Anzeige
+über die Jahreszeit wandert, findet dort die Werte, um es nachzuprüfen statt zu
+vermuten.
