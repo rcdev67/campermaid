@@ -2,20 +2,20 @@
 #  CamperMaid Level - Komplettfassung (GENERIERT - nicht editieren)
 # ----------------------------------------------------------------------------
 #  Erzeugt von build_komplett.ps1 aus hardware.yaml.
-#  Aenderungen an der Messlogik dort machen und neu bauen.
+#  Änderungen an der Messlogik dort machen und neu bauen.
 #
-#  ZUM EINFUEGEN GEDACHT: im ESPHome Device Builder ein neues Geraet anlegen,
-#  dann in der erzeugten Datei ALLES markieren, loeschen und diese Datei
-#  komplett einfuegen. Nichts weiter - kein Kopieren von Dateien, kein
-#  Eintrag in der secrets.yaml, kein Zusammenfuegen von Bloecken.
+#  ZUM EINFÜGEN GEDACHT: im ESPHome Device Builder ein neues Gerät anlegen,
+#  dann in der erzeugten Datei ALLES markieren, löschen und diese Datei
+#  komplett einfügen. Nichts weiter - kein Kopieren von Dateien, kein
+#  Eintrag in der secrets.yaml, kein Zusammenfügen von Blöcken.
 #
 #  Vorausgesetzt werden nur wifi_ssid und wifi_password in der secrets.yaml.
 #  Die legt ESPHome bei der Ersteinrichtung selbst an; wenn in deiner
-#  Geraetedatei "!secret wifi_ssid" stand, sind sie vorhanden.
+#  Gerätedatei "!secret wifi_ssid" stand, sind sie vorhanden.
 #
-#  Bewusst weggelassen: API-Verschluesselung und OTA-Passwort. Beides ist in
-#  ESPHome optional, und beides waere ein Wert, den jeder einzeln erzeugen und
-#  eintragen muesste. Wer das moechte, ergaenzt es spaeter im ESPHome-Editor:
+#  Bewusst weggelassen: API-Verschlüsselung und OTA-Passwort. Beides ist in
+#  ESPHome optional, und beides wäre ein Wert, den jeder einzeln erzeugen und
+#  eintragen müsste. Wer das möchte, ergänzt es später im ESPHome-Editor:
 #
 #      api:
 #        encryption:
@@ -24,35 +24,35 @@
 #        - platform: esphome
 #          password: "<eigenes Passwort>"
 #
-#  Ohne diese Zeilen ist das Geraet im eigenen Netz erreichbar wie jedes
-#  andere ESPHome-Geraet ohne Verschluesselung. Fuer ein Nivelliergeraet im
-#  Wohnmobil ist das vertretbar - fuer Tueroeffner waere es das nicht.
+#  Ohne diese Zeilen ist das Gerät im eigenen Netz erreichbar wie jedes
+#  andere ESPHome-Gerät ohne Verschlüsselung. Für ein Nivelliergerät im
+#  Wohnmobil ist das vertretbar - für Türöffner wäre es das nicht.
 # ============================================================================
 
 substitutions:
-  # Geraetename - bestimmt auch die Entity-Namen in Home Assistant.
+  # Gerätename - bestimmt auch die Entity-Namen in Home Assistant.
   device_name: campermaid-level
   friendly_name: CamperMaid Level
-  # Version DIESES Produkts. Sie zaehlt eigenstaendig - die Integration in
+  # Version DIESES Produkts. Sie zählt eigenständig - die Integration in
   # custom_components/campermaid hat ihre eigene, und CamperMaid Gas wird
-  # spaeter eine dritte haben. Frueher liefen Firmware und Integration im
-  # Gleichschritt; mit mehreren Geraeten geht das nicht mehr auf, weil sonst
-  # eine Aenderung an der Gaswaage jedem Nivelliergeraet ein Update aufzwingt.
+  # später eine dritte haben. Früher liefen Firmware und Integration im
+  # Gleichschritt; mit mehreren Geräten geht das nicht mehr auf, weil sonst
+  # eine Änderung an der Gaswaage jedem Nivelliergerät ein Update aufzwingt.
   #
-  # Sie muss zeichengleich im Update-Manifest stehen: Die Pruefung im Geraet
-  # vergleicht genau diese Zeichenkette. Weicht sie ab, meldet das Geraet
-  # dauerhaft "Update verfuegbar".
+  # Sie muss zeichengleich im Update-Manifest stehen: Die Prüfung im Gerät
+  # vergleicht genau diese Zeichenkette. Weicht sie ab, meldet das Gerät
+  # dauerhaft "Update verfügbar".
   firmware_version: "2.0.0"
 
   # I2C-Pins (0,42"-OLED-Board): SDA=GPIO5, SCL=GPIO6
   i2c_sda_pin: GPIO5
   i2c_scl_pin: GPIO6
   # Toleranz in Grad, bis zu der "steht gerade" gilt.
-  # NUR fuer die Anzeige am Geraet (OLED + binary_sensor "steht gerade").
+  # NUR für die Anzeige am Gerät (OLED + binary_sensor "steht gerade").
   # Ansagen und Karte benutzen die Toleranz aus der HA-Integration.
   level_tolerance_deg: "0.4"
   # Achsen-Vorzeichen - nur "1" oder "-1".
-  # Konvention: pitch > 0 = Front hoeher, roll > 0 = rechte Seite hoeher.
+  # Konvention: pitch > 0 = Front höher, roll > 0 = rechte Seite höher.
   pitch_sign: "1"
   roll_sign: "1"
   # Achs-ZUORDNUNG: auf welcher Beschleunigungsachse liegt welche Neigung?
@@ -61,7 +61,7 @@ substitutions:
   #   Sensor um 90 Grad gedreht verbaut:                          x / y
   # Wird an ALLEN drei Stellen benutzt (Pitch, Roll, Kalibrier-Button) - genau
   # deshalb als Substitution: eine falsch mitgezogene Stelle war hier schon
-  # einmal die Ursache dafuer, dass Anzeige und gespeicherter Offset
+  # einmal die Ursache dafür, dass Anzeige und gespeicherter Offset
   # auseinanderliefen.
   axis_pitch: "x"
   axis_roll: "y"
@@ -98,7 +98,7 @@ captive_portal:
 web_server:
   port: 80
   include_internal: true
-  # local: true bettet die Oberflaeche in die Firmware ein, statt sie von einem
+  # local: true bettet die Oberfläche in die Firmware ein, statt sie von einem
   # CDN nachzuladen. OHNE das bleibt die Seite auf dem Stellplatz ohne Internet
   # leer - genau dann, wenn man sie braucht. Kostet etwas Flash (4 MB sind da).
   local: true
@@ -112,7 +112,7 @@ i2c:
   sda: ${i2c_sda_pin}
   scl: ${i2c_scl_pin}
   scan: true
-  frequency: 100kHz          # stabil mit OLED+MPU; 400kHz moeglich, wenn Bus sauber
+  frequency: 100kHz          # stabil mit OLED+MPU; 400kHz möglich, wenn Bus sauber
   sda_pullup_enabled: true
   scl_pullup_enabled: true
 
@@ -126,17 +126,17 @@ globals:
     initial_value: "0.0"
     restore_value: true
 
-# --- Fahrzeugmasse ---------------------------------------------------------
-# Gehoeren ins Geraet, nicht ins Handy: sie beschreiben das Fahrzeug, nicht den
-# Betrachter. Lagen sie im Browser, waeren sie beim Handywechsel weg und zwei
-# Mitfahrer saehen verschiedene Zahlen.
+# --- Fahrzeugmaße ---------------------------------------------------------
+# Gehören ins Gerät, nicht ins Handy: sie beschreiben das Fahrzeug, nicht den
+# Betrachter. Lagen sie im Browser, wären sie beim Handywechsel weg und zwei
+# Mitfahrer sähen verschiedene Zahlen.
 #
-# restore_value haelt sie ueber Stromausfall und Neustart. optimistic, weil es
-# keine Gegenstelle gibt, die den Wert bestaetigen koennte - das Geraet ist die
+# restore_value hält sie über Stromausfall und Neustart. optimistic, weil es
+# keine Gegenstelle gibt, die den Wert bestätigen könnte - das Gerät ist die
 # Gegenstelle.
 #
 # Die Grenzen sind bewusst weit: ein Kastenwagen hat 3000 mm Radstand, ein
-# Liner ueber 7000. Zu enge Grenzen wuerden echte Fahrzeuge ausschliessen.
+# Liner über 7000. Zu enge Grenzen würden echte Fahrzeuge ausschließen.
 number:
   - platform: template
     name: "Radstand"
@@ -181,7 +181,7 @@ number:
     mode: box
 
   # 0 bedeutet: in Zentimetern rechnen statt in Stufen. Wer Hydraulik hat,
-  # laesst den Wert ohnehin auf 0.
+  # lässt den Wert ohnehin auf 0.
   - platform: template
     name: "Keilstufe"
     id: wedge_step_cm
@@ -196,7 +196,7 @@ number:
     optimistic: true
     mode: box
 
-# Bestimmt, wie die Geraeteseite ihre Hinweise ordnet: mit Keilen eine
+# Bestimmt, wie die Geräteseite ihre Hinweise ordnet: mit Keilen eine
 # Anweisung nach der anderen, mit einem Hebesystem alle Ecken auf einmal.
 select:
   - platform: template
@@ -211,15 +211,15 @@ select:
     restore_value: true
     optimistic: true
 
-  # Aendert die Geometrie, nicht nur die Beschriftung:
+  # Ändert die Geometrie, nicht nur die Beschriftung:
   #
   # Wohnmobil - vier Auflagepunkte, zwei Achsen. "Radstand" ist der
-  #   Achsabstand, korrigiert wird ausschliesslich nach oben.
+  #   Achsabstand, korrigiert wird ausschließlich nach oben.
   #
-  # Wohnwagen - eine Achse plus Stuetzrad. Quer laeuft es gleich, laengs
-  #   aber ueber das Stuetzrad, das sich in BEIDE Richtungen kurbeln laesst.
-  #   "Radstand" bedeutet dann Abstand Achse zu Stuetzrad - meist deutlich
-  #   groesser als ein Radstand, also unbedingt nachmessen.
+  # Wohnwagen - eine Achse plus Stützrad. Quer läuft es gleich, längs
+  #   aber über das Stützrad, das sich in BEIDE Richtungen kurbeln lässt.
+  #   "Radstand" bedeutet dann Abstand Achse zu Stützrad - meist deutlich
+  #   größer als ein Radstand, also unbedingt nachmessen.
   - platform: template
     name: "Fahrzeugart"
     id: vehicle_type
@@ -232,7 +232,7 @@ select:
     restore_value: true
     optimistic: true
 
-# --- Schriften fuers OLED (laedt sich beim Kompilieren automatisch) --------
+# --- Schriften fürs OLED (lädt sich beim Kompilieren automatisch) --------
 font:
   - file: "gfonts://Roboto"
     id: font_num
@@ -280,7 +280,7 @@ sensor:
       id: gyro_z
       internal: true
 
-  # --- Neigung Laengs (Pitch) ----------------------------------------------
+  # --- Neigung Längs (Pitch) ----------------------------------------------
   - platform: template
     name: "Neigung Pitch"
     id: pitch
@@ -293,7 +293,7 @@ sensor:
       if (isnan(id(accel_${axis_pitch}).state) || isnan(id(accel_${axis_roll}).state) || isnan(id(accel_z).state)) {
         return NAN;
       }
-      // Laengs-Neigung liegt auf accel_${axis_pitch} (siehe axis_pitch oben)
+      // Längs-Neigung liegt auf accel_${axis_pitch} (siehe axis_pitch oben)
       const float raw = atan2f(
         id(accel_${axis_pitch}).state,
         sqrtf(powf(id(accel_${axis_roll}).state, 2) + powf(id(accel_z).state, 2))
@@ -347,7 +347,7 @@ binary_sensor:
       return fabsf(id(pitch).state) <= ${level_tolerance_deg}
         && fabsf(id(roll).state) <= ${level_tolerance_deg};
 
-  # Bewegungserkennung ueber Gyro -> "steht" erst 20 s nach letzter Bewegung
+  # Bewegungserkennung über Gyro -> "steht" erst 20 s nach letzter Bewegung
   - platform: template
     name: "In Bewegung"
     id: in_motion
@@ -357,21 +357,21 @@ binary_sensor:
         return {};
       }
       const float g = fabsf(id(gyro_x).state) + fabsf(id(gyro_y).state) + fabsf(id(gyro_z).state);
-      return g > 3.0f;   // Summe der Drehraten (deg/s); Schwelle fuer "Bewegung"
+      return g > 3.0f;   // Summe der Drehraten (deg/s); Schwelle für "Bewegung"
     filters:
       - delayed_off: 20s   # gilt erst 20 s nach der letzten Bewegung als "steht"
 
 text_sensor:
   # Unsere eigene Fassung, nicht die von ESPHome. Muss mit der Version in
-  # esphome.project und im Update-Manifest uebereinstimmen: Die Update-
-  # Pruefung vergleicht genau diese Zeichenkette.
+  # esphome.project und im Update-Manifest übereinstimmen: Die Update-
+  # Prüfung vergleicht genau diese Zeichenkette.
   - platform: template
     name: "Firmware Version"
     id: firmware_version_sensor
     icon: mdi:tag-outline
     entity_category: diagnostic
     lambda: 'return {"${firmware_version}"};'
-    # 60s und nicht laenger: Ein Template-Sensor veroeffentlicht erst NACH
+    # 60s und nicht länger: Ein Template-Sensor veröffentlicht erst NACH
     # Ablauf des ersten Intervalls, nicht beim Start. Mit 6h stand hier
     # stundenlang "unbekannt" und die Zeile fehlte in der Technik-Liste.
     update_interval: 60s
@@ -396,11 +396,11 @@ button:
       then:
         - lambda: |-
             if (isnan(id(accel_${axis_pitch}).state) || isnan(id(accel_${axis_roll}).state) || isnan(id(accel_z).state)) {
-              ESP_LOGW("level", "Kalibrierung abgebrochen: MPU6050 liefert noch keine gueltigen Werte.");
+              ESP_LOGW("level", "Kalibrierung abgebrochen: MPU6050 liefert noch keine gültigen Werte.");
               return;
             }
             // MUSS dieselbe Achszuordnung benutzen wie die Sensoren oben -
-            // deshalb ebenfalls ueber ${axis_pitch} / ${axis_roll}.
+            // deshalb ebenfalls über ${axis_pitch} / ${axis_roll}.
             id(pitch_offset) = atan2f(
               id(accel_${axis_pitch}).state,
               sqrtf(powf(id(accel_${axis_roll}).state, 2) + powf(id(accel_z).state, 2))

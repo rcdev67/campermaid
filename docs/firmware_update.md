@@ -107,5 +107,5 @@ aus derselben Quelle. Erst versuchen, dann abschalten, nicht umgekehrt.
 enthält bewusst weder `update:` noch den Update-Knopf. Wer diese Datei
 einfügt, hat sie in aller Regel angepasst — Gerätename, Pins, Achsvorzeichen.
 Ein automatisches Update würde diese Anpassungen kommentarlos durch den
-Werksstand ersetzen. Selbstbauer aktualisieren über das ESPHome-Dashboard,
+Werksstand ersetzen. Selbstbaür aktualisieren über das ESPHome-Dashboard,
 das sie ohnehin benutzen.
